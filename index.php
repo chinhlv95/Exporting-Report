@@ -7,13 +7,13 @@
 </head>
 <body>
 	<div class="form-style">
-		<h2>Get Template</h2>
+		<h2>GENERATE SCS STG UPDATE MANUAL</h2>
 		    <form method="POST" action="./mvc/view/index.php">
-			    <input type="text" name="gitbranch" placeholder="TicketID/Git branch" required />
+			    <input type="text" name="gitbranch" placeholder="TicketID/Git branch (Ex: SCS-3170)" required />
 			    <label for="editcheck" class="edit-text">Edited php.in or yml files: </label>
 			    <label class="radio-align"><input type="radio" name="editcheck" value="0" checked>No</label>
 			    <label class="radio-align"><input type="radio" name="editcheck" value="1">Yes</label><br>
-			    <input type="submit" value="Get">
+			    <input type="submit" value="GENERATE">
 		    </form>
 	</div>
 </body>

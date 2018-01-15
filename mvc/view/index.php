@@ -54,9 +54,11 @@ echo "6. Update stg by devtool \r\n";
 echo "Access devetool \r\n";
 echo "http://stgmente.stockcontrol.jp/devtool.php \r\n";
 echo "- At 「STAGE ステータス」 Click 実行 \r\n";
-echo "- At 「STAGE アップデート」 Click 実行 \r\n";
+echo "- At 「STAGE アップデート」 Click 実行 \r\n\r\n";
 if ($editcheck 	== 1) {
-	echo "- Go to server stg to edit yml and php.ini files which were edited. \r\n";
-	echo "- Back to devetool screen: In STAGE アップデート Click 実行 \r\n";
+	echo "7. Edit .php.in/yml files \r\n";
+	echo "- Connect to STG and edit yml and php.ini files  \r\n";
+	echo "- Back to devtool \r\n";
+	echo "At 「STAGE アップデート」 Click 実行  \r\n";
 }
 ?>
