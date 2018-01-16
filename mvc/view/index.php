@@ -5,15 +5,16 @@ use mvc\model\RedmineData;
 require_once("./../../mvc/model/RedmineData.php");
 
 $today = date("Ymd");
-if (isset($_POST["gitbranch"])) {
-	$gitBranch 	= $_POST["gitbranch"];
+if (isset($_POST["scsbranch"])) {
+	$scsBranch 	= $_POST["scsbranch"];
 } else {
-	$gitBranch 	= "";
+	$scsBranch	= "";
 }
 
 $redmineData 	= new \mvc\model\RedmineData;
-$data 			= $redmineData->getInfoOfTicket($gitBranch);
+$data 			= $redmineData->getInfoOfTicket($scsBranch);
 $scsBranch 		= $data['scsBranch'];
+$gitBranch 		= $data['gitBranch'];
 $comment 		= $data['comment'];
 
 $editcheck 	= 0;
