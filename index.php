@@ -10,6 +10,10 @@
 		<h2>GENERATE SCS STG UPDATE MANUAL</h2>
 		    <form method="POST" id="form" action="./mvc/view/index.php">
 			    <input type="text" name="scsbranch" placeholder="TicketID/Git branch (Ex: SCS-3170)" required />
+			    <select name="language" required>
+			        <option value="english" selected>English Template</option>
+			        <option value="japan">Japan Template</option>
+			    </select>
 			    <label for="editcheck" class="edit-text">Edited php.in or yml files: </label>
 			    <label class="radio-align"><input type="radio" name="editcheck" value="0" checked>No</label>
 			    <label class="radio-align"><input type="radio" name="editcheck" value="1">Yes</label><br>

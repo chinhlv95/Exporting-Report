@@ -60,3 +60,25 @@
 .radio-align {
 	margin-left: 10px;
 }
+
+select {
+    outline: none;
+    background: none;
+    border: none;
+    border-bottom: solid 1px #ddd;
+    color: #474544;
+    font-size: 1.000em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0em 0 1.5em 0;
+    padding: 10px;
+    width: 100%;
+    background: url('./../../public/img/arrow-down-icon.png') no-repeat right;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
