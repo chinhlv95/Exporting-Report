@@ -72,10 +72,11 @@ class Report
     	$objPHPSheet->setCellValue('J4',"HuongLH(QAL)");
     	$objPHPSheet->setCellValue('K4',"ChinhLV(Dev)");
     	$objPHPSheet->setCellValue('L4',"HienTQ(Dev)");
+    	$userArr 	  = array('JP Muramatsu', 'JP Saito6694', 'Pham Thinh', 'QA HuongLH6380', 'Dev Chinhlv6812', 'Dev HienTQ-6724');
     	$project_name = array();
     	$category_id  = array();
     	foreach ($data as $key => $value) {
-    		if ($value['spent_time'] == 0) {
+    		if ($value['spent_time'] == 0 || !in_array ($value['user_name'], $userArr)) {
     			unset($data[$key]);
     		} else {
 			    $project_name[$key]  = $value['project_name'];
