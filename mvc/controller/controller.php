@@ -1,6 +1,5 @@
 <?php
 
-namespace mvc\view;
 use mvc\model\RedmineData;
 use mvc\model\Report;
 require_once("./../../mvc/model/RedmineData.php");
