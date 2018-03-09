@@ -6,13 +6,13 @@ require_once './../../php-redmine-api-master/lib/autoload.php';
 class RedmineData 
 {
 
-	function __construct($redmine_url, $key) {
-
+	function __construct($redmine_url, $key)
+	{
 		$this->client = new \Redmine\Client($redmine_url, $key);
 	}
 
-	public function getIssue($issueParam1, $issueParam2, $issueClosedParam1, $issueClosedParam2, &$result) {
-
+	public function getIssue($issueParam1, $issueParam2, $issueClosedParam1, $issueClosedParam2, &$result)
+	{
 		$issue = array();
 		$issue1 = $this->client->issue->all($issueParam1);
 		$issue2 = $this->client->issue->all($issueParam2);
@@ -51,8 +51,8 @@ class RedmineData
         }
 	}
 
-	public function getTimeEntries($startDate, $dueDate, $timeEntryParam1, $timeEntryParam2, &$result) {
-
+	public function getTimeEntries($startDate, $dueDate, $timeEntryParam1, $timeEntryParam2, &$result)
+	{
 		$timeEntries 	= array();
 		$timeEntries1 = $this->client->time_entry->all($timeEntryParam1);
 		$timeEntries2 = $this->client->time_entry->all($timeEntryParam2);

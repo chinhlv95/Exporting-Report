@@ -6,11 +6,12 @@ require_once './../../PHPExcel/PHPExcel.php';
 class Report 
 {
 
-	function __construct() {
+	function __construct()
+	{
 	}
 
-	public function getReportData($issues, $timeEntries) {
-
+	public function getReportData($issues, $timeEntries)
+	{
 		$result = array();
 		foreach ($timeEntries as $timeEntry) {
 			foreach ($issues as $issue) {
@@ -23,8 +24,8 @@ class Report
 		return $result;	
 	}
 
-	public function exportReportFile($startDate, $dueDate, $data) {
-		 
+	public function exportReportFile($startDate, $dueDate, $data)
+	{
 		// Create new PHPExcel object
 		$objPHPExcel 	= new PHPExcel();
 		$startDate 		= date("Ymd", strtotime($startDate));
@@ -167,8 +168,8 @@ class Report
 		$objWriter->save('php://output');
 	}
 
-	public function getTotalTime($projectName, $categoryId, $data) {
-
+	public function getTotalTime($projectName, $categoryId, $data)
+	{
 		$result = 0;
 		foreach ($data as $key => $value) {
 			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId) {
@@ -178,8 +179,8 @@ class Report
 		return $result;
 	}
 
-	public function getTotalTimeByUser($projectName, $categoryId, $userName, &$data) {
-
+	public function getTotalTimeByUser($projectName, $categoryId, $userName, &$data)
+	{
 		$result = 0;
 		foreach ($data as $key => $value) {
 			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && $value['user_name'] == $userName) {

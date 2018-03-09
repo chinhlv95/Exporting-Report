@@ -9,7 +9,7 @@
 	<div class="form-style">
 		<h2>Export Report</h2>
 		    <form method="POST" id="form" action="./mvc/controller/controller.php">
-		    	<label for="editcheck" class="edit-text">Frome Date: </label>
+		    	<label for="editcheck" class="edit-text">From Date: </label>
 			    <input type="date" name="from-date" style="margin-left: 20px" required /><br>
 			    <label for="editcheck" class="edit-text">To Date: </label>
 			    <input type="date" name="to-date" style="margin-left: 49px" required /><br>
