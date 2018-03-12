@@ -36,7 +36,7 @@ $allTimeEntryParam2 = array(
 				    	'offset'		=> 0,
 				    	'limit' 		=> 100);
 $allTimeEntries 	= array();
-// $redmineData->getTimeEntries($allTimeEntryParam1, $allTimeEntryParam2, $allTimeEntries);
+$redmineData->getTimeEntries($allTimeEntryParam1, $allTimeEntryParam2, $allTimeEntries);
 
 // Get time entries
 
@@ -51,7 +51,7 @@ $timeEntryParam2 = array('from' 		=> $startDate,
 				    	'offset'		=> 0,
 				    	'limit' 		=> 100);
 $timeEntries 	= array();
-// $redmineData->getTimeEntries($timeEntryParam1, $timeEntryParam2, $timeEntries);
+$redmineData->getTimeEntries($timeEntryParam1, $timeEntryParam2, $timeEntries);
 
 // Get Issue
 
@@ -74,7 +74,7 @@ $issueClosedParam2 	= array('project_id' => $project2Id,
 				    	'status_id' 	=> 'closed',
 				    	'sort' 			=> 'id');
 $issues = array();
-// $redmineData->getIssue($issueParam1, $issueParam2, $issueClosedParam1, $issueClosedParam2, $issues);
+$redmineData->getIssue($issueParam1, $issueParam2, $issueClosedParam1, $issueClosedParam2, $issues);
 
 // Get report data
 
