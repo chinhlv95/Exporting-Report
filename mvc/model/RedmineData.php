@@ -30,9 +30,21 @@ class RedmineData
 		foreach ($issueClosed2['issues'] as $issueClosed) {
 			array_push($issue, $issueClosed);
 		}
+
 		foreach ($issue as $issue) {
 			$temp = array();
 			$temp['issue_id'] 		= $issue['id'];
+			$temp['project_name'] 	= $issue['project']['name'];
+			$temp['assigned_to'] 	= $issue['assigned_to']['name'];
+			$temp['spent_time'] 	= 0;
+			if (isset($issue['estimated_hours'])) {
+				$temp['estimated_hours'] 	= $issue['estimated_hours'];
+			} else {
+				$temp['estimated_hours'] 	= 0;
+			}
+			if (isset($issue['parent'])) {
+				$temp['parent_id'] 	= $issue['parent']['id'];
+			}
 			if (isset($issue['category'])) {
 				$temp['category_id'] 	= $issue['category']['id'];
 				$temp['category_name'] 	= $issue['category']['name'];
@@ -51,7 +63,7 @@ class RedmineData
         }
 	}
 
-	public function getTimeEntries($startDate, $dueDate, $timeEntryParam1, $timeEntryParam2, &$result)
+	public function getTimeEntries($timeEntryParam1, $timeEntryParam2, &$result)
 	{
 		$timeEntries 	= array();
 		$timeEntries1 = $this->client->time_entry->all($timeEntryParam1);
@@ -74,7 +86,7 @@ class RedmineData
 		if (count($timeEntries1['time_entries']) == $timeEntryParam1['limit'] || count($timeEntries2['time_entries']) == $timeEntryParam2['limit']) {
             $timeEntryParam1['offset'] += $timeEntryParam1['limit'];
             $timeEntryParam2['offset'] += $timeEntryParam2['limit'];
-            $this->getTimeEntries($startDate, $dueDate, $timeEntryParam1, $timeEntryParam2, $result);
+            $this->getTimeEntries($timeEntryParam1, $timeEntryParam2, $result);
         }
 	}
 }

@@ -12,7 +12,7 @@
 		    	<label for="editcheck" class="edit-text">From Date: </label>
 			    <input type="date" name="from-date" style="margin-left: 20px" required /><br>
 			    <label for="editcheck" class="edit-text">To Date: </label>
-			    <input type="date" name="to-date" style="margin-left: 49px" required /><br>
+			    <input type="date" name="to-date" style="margin-left: 40px" required /><br>
 			    <input type="submit" value="Export">
 		    </form>
 	</div>

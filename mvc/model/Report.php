@@ -1,6 +1,5 @@
 <?php
 
-// require_once './../../PHPExcel/PHPExcel/IOFactory.php';
 require_once './../../PHPExcel/PHPExcel.php';
 
 class Report 
@@ -24,7 +23,95 @@ class Report
 		return $result;	
 	}
 
-	public function exportReportFile($startDate, $dueDate, $data)
+	public function getReportDataAll($issues, $timeEntries)
+	{
+		$result = array();
+		foreach ($issues as $issue) {
+			$temp = $issue;
+			foreach ($timeEntries as $timeEntry) {
+				if ($timeEntry['issue_id'] == $issue['issue_id']) {
+					$temp['spent_time'] += $timeEntry['spent_time'];
+				}
+			}
+			array_push($result, $temp);
+		}
+		return $result;
+	}
+
+	public function getTotalTimeByUser($projectName, $categoryId, $data)
+	{
+		$result = array(
+						'JP Muramatsu' 		=> 0,
+						'JP Saito6694' 		=> 0,
+						'Pham Thinh'		=> 0,
+						'QA HuongLH6380'	=> 0,
+						'Dev Chinhlv6812' 	=> 0,
+						'Dev HienTQ-6724'	=> 0
+						);
+		foreach ($data as $key => $value) {
+			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId) {
+				switch ($value['user_name']) {
+					case 'JP Muramatsu':
+						$result['JP Muramatsu'] 	+= $value['spent_time'];
+						break;
+					case 'JP Saito6694':
+						$result['JP Saito6694'] 	+= $value['spent_time'];
+						break;
+					case 'Pham Thinh':
+						$result['Pham Thinh'] 		+= $value['spent_time'];
+						break;
+					case 'QA HuongLH6380':
+						$result['QA HuongLH6380'] 	+= $value['spent_time'];
+						break;
+					case 'Dev Chinhlv6812':
+						$result['Dev Chinhlv6812'] 	+= $value['spent_time'];
+						break;
+					case 'Dev HienTQ-6724':
+						$result['Dev HienTQ-6724'] 	+= $value['spent_time'];
+						break;
+					default:
+						# code...
+						break;
+				}
+			}
+		}
+		return $result;
+	}
+
+	public function getEstimatedTime($projectName, $categoryId, $data, $userArr)
+	{
+		$result = 0;
+		foreach ($data as $key => $value) {
+			if (isset($value['parent_id'])) {
+				$parentID   = $value['parent_id'];
+				$parentTask = array_filter($data, function($ar) use($parentID) {
+				    return ($ar['issue_id'] == $parentID);
+				});
+				if (!empty($parentTask)) {
+					unset($data[key($parentTask)]);
+				}
+			}
+		}
+		foreach ($data as $key => $value) {
+			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && in_array($value['assigned_to'], $userArr)) {
+				$result += $value['estimated_hours'];
+			}
+		}
+		return $result;
+	}
+
+	public function getSpentTime($projectName, $categoryId, $data, $userArr)
+	{
+		$result = 0;
+		foreach ($data as $key => $value) {
+			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && in_array($value['assigned_to'], $userArr)) {
+				$result += $value['spent_time'];
+			}
+		}
+		return $result;
+	}
+
+	public function exportReportFile($startDate, $dueDate, $data, $issues)
 	{
 		// Create new PHPExcel object
 		$objPHPExcel 	= new PHPExcel();
@@ -91,18 +178,25 @@ class Report
     		$projectCategory = $value['project_name'] . '-' . $value['category_name'];
     		if (!in_array ($projectCategory, $categoryArr)) {
 	    		$row = $stt + 4;
+	    		$projectName = '';
+	    		if ($value['project_name'] =='DH-Management') {
+	    			$projectName = '全体';
+	    		} else if ($value['project_name'] =='DH-SCS') {
+	    			$projectName = 'SCS';
+	    		}
+	    		$spentTime 	= $this->getTotalTimeByUser($value['project_name'], $value['category_id'], $data);
 	    		$objPHPSheet->setCellValue('A' . $row, (string)$stt);
 	    		$objPHPSheet->setCellValue('B' . $row, $value['category_name']);
-	    		$objPHPSheet->setCellValue('C' . $row, $value['project_name']);
-	    		$objPHPSheet->setCellValue('D' . $row, '0.00');
-	    		$objPHPSheet->setCellValue('E' . $row, '0.00');
+	    		$objPHPSheet->setCellValue('C' . $row, $projectName);
+	    		$objPHPSheet->setCellValue('D' . $row, $this->getEstimatedTime($value['project_name'], $value['category_id'], $issues, $userArr));
+	    		$objPHPSheet->setCellValue('E' . $row, $this->getSpentTime($value['project_name'], $value['category_id'], $issues, $userArr));
 	    		$objPHPSheet->setCellValue('F' . $row, "=SUM(G". $row . ":L". $row .")");
-	    		$objPHPSheet->setCellValue('G' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'JP Muramatsu', $data));
-	    		$objPHPSheet->setCellValue('H' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'JP Saito6694', $data));
-	    		$objPHPSheet->setCellValue('I' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'Pham Thinh', $data));
-	    		$objPHPSheet->setCellValue('J' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'QA HuongLH6380', $data));
-	    		$objPHPSheet->setCellValue('K' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'Dev Chinhlv6812', $data));
-	    		$objPHPSheet->setCellValue('L' . $row, $this->getTotalTimeByUser($value['project_name'], $value['category_id'], 'Dev HienTQ-6724', $data));
+	    		$objPHPSheet->setCellValue('G' . $row, $spentTime['JP Muramatsu']);
+	    		$objPHPSheet->setCellValue('H' . $row, $spentTime['JP Saito6694']);
+	    		$objPHPSheet->setCellValue('I' . $row, $spentTime['Pham Thinh']);
+	    		$objPHPSheet->setCellValue('J' . $row, $spentTime['QA HuongLH6380']);
+	    		$objPHPSheet->setCellValue('K' . $row, $spentTime['Dev Chinhlv6812']);
+	    		$objPHPSheet->setCellValue('L' . $row, $spentTime['Dev HienTQ-6724']);
 	    		array_push($categoryArr, $projectCategory);
 	    		$stt ++;
 	    	}
@@ -160,33 +254,13 @@ class Report
 		        )
 		    )
 		);
+		$objPHPSheet->getStyle('C'. $totalRow .':L' . $totalRow)->applyFromArray($style);
+
 		$objPHPSheet->getStyle('D5:L' . $totalRow)->getNumberFormat()->setFormatCode('0.00'); 
 
 	    header('content-type:application/csv;charset=UTF-8');
 		header('Content-Disposition: attachment;filename="' . $fileName . '"');
 	    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
-	}
-
-	public function getTotalTime($projectName, $categoryId, $data)
-	{
-		$result = 0;
-		foreach ($data as $key => $value) {
-			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId) {
-				$result += $value['spent_time'];
-			}
-		}
-		return $result;
-	}
-
-	public function getTotalTimeByUser($projectName, $categoryId, $userName, &$data)
-	{
-		$result = 0;
-		foreach ($data as $key => $value) {
-			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && $value['user_name'] == $userName) {
-				$result += $value['spent_time'];
-			}
-		}
-		return $result;
 	}
 }

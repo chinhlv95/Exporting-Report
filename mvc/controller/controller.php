@@ -25,6 +25,19 @@ $report 		= new \Report();
 $project1Id 	= $config['project_id_1'];
 $project2Id 	= $config['project_id_2'];
 
+// Get all time entries
+
+$allTimeEntryParam1 = array(
+				    	'project_id' 	=> $project1Id,
+				    	'offset'		=> 0,
+				    	'limit' 		=> 100);
+$allTimeEntryParam2 = array(
+				    	'project_id' 	=> $project2Id,
+				    	'offset'		=> 0,
+				    	'limit' 		=> 100);
+$allTimeEntries 	= array();
+$redmineData->getTimeEntries($allTimeEntryParam1, $allTimeEntryParam2, $allTimeEntries);
+
 // Get time entries
 
 $timeEntryParam1 = array('from' 		=> $startDate,
@@ -38,7 +51,7 @@ $timeEntryParam2 = array('from' 		=> $startDate,
 				    	'offset'		=> 0,
 				    	'limit' 		=> 100);
 $timeEntries 	= array();
-$redmineData->getTimeEntries($startDate, $dueDate, $timeEntryParam1, $timeEntryParam2, $timeEntries);
+$redmineData->getTimeEntries($timeEntryParam1, $timeEntryParam2, $timeEntries);
 
 // Get Issue
 
@@ -68,8 +81,10 @@ $redmineData->getIssue($issueParam1, $issueParam2, $issueClosedParam1, $issueClo
 $reportData 	= array();
 $reportData 	= $report->getReportData($issues, $timeEntries);
 
+$issuesAll = $report->getReportDataAll($issues, $allTimeEntries);
+
 // Export report
 
-$report->exportReportFile($startDate, $dueDate, $reportData);
+$report->exportReportFile($startDate, $dueDate, $reportData, $issuesAll);
 
 
