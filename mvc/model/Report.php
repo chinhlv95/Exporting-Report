@@ -82,18 +82,7 @@ class Report
 	{
 		$result = 0;
 		foreach ($data as $key => $value) {
-			if (isset($value['parent_id'])) {
-				$parentID   = $value['parent_id'];
-				$parentTask = array_filter($data, function($ar) use($parentID) {
-				    return ($ar['issue_id'] == $parentID);
-				});
-				if (!empty($parentTask)) {
-					unset($data[key($parentTask)]);
-				}
-			}
-		}
-		foreach ($data as $key => $value) {
-			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && in_array($value['assigned_to'], $userArr)) {
+			if ($value['project_name'] == $projectName && $value['category_id'] == $categoryId && in_array($value['assigned_to'], $userArr) && !isset($value['parent_id'])) {
 				$result += $value['estimated_hours'];
 			}
 		}
